@@ -2,243 +2,290 @@
 
 import * as React from "react"
 import {
-    Building2,
-    ChevronsLeft,
-    ChevronsUpDown,
     LayoutDashboard,
-    ChartColumn,
+    Boxes,
     BookOpenText,
     Award,
     ShieldCheck,
     ShoppingBag,
-    Users,
-    Wallet,
+    UsersRound,
+    Banknote,
+    BarChart3,
     Settings,
+    UserRound,
+    Moon,
     LogOut,
-    User,
-    Moon
+    PanelLeftClose,
+    PanelLeftOpen,
+    ChevronsUpDown,
 } from "lucide-react"
-
-import { cn } from "@/lib/utils"
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion"
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from "@/components/ui/accordion"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { cn } from "@/lib/utils"
 
-// 9-Item Main Skeleton
-const navigation = [
-    { name: "Gösterge Paneli", icon: LayoutDashboard, href: "#", current: true },
-    { name: "Analitik & Raporlar", icon: ChartColumn, href: "#", current: false },
+// Menu definitions
+const topNavItems = [
+    {
+        title: "Gösterge Paneli",
+        icon: LayoutDashboard,
+        href: "#",
+    },
 ]
 
-const accordionNav = [
+const accordionItems = [
     {
-        id: "item-1",
-        name: "Eğitim & Programlar",
+        title: "Eğitim & Programlar",
         icon: BookOpenText,
         children: [
-            { name: "Tüm Eğitimler", href: "#" },
-            { name: "Programlar", href: "#" },
-            { name: "Canlı Yayınlar", href: "#" },
+            { title: "Katalog", href: "#" },
+            { title: "Sertifikalar", href: "#" },
         ],
     },
     {
-        id: "item-2",
-        name: "Yetkinlik Yönetimi",
+        title: "Yetkinlik Yönetimi",
         icon: Award,
         children: [
-            { name: "Sertifikalar", href: "#" },
-            { name: "Sınavlar", href: "#" },
+            { title: "Değerlendirmeler", href: "#" },
+            { title: "Rozetler", href: "#" },
         ],
     },
     {
-        id: "item-3",
-        name: "Yasal Uyum & Sözleşmeler",
+        title: "Yasal Uyum & Sözleşmeler",
         icon: ShieldCheck,
         children: [
-            { name: "Sözleşmeler", href: "#" },
-            { name: "KVKK İzinleri", href: "#" },
+            { title: "Sözleşmeler", href: "#" },
+            { title: "Onaylar", href: "#" },
         ],
     },
     {
-        id: "item-4",
-        name: "Akademi Market",
+        title: "Mağaza",
         icon: ShoppingBag,
         children: [
-            { name: "Katalog", href: "#" },
-            { name: "Siparişler", href: "#" },
+            { title: "Ürünler", href: "#" },
+            { title: "Siparişler", href: "#" },
         ],
     },
     {
-        id: "item-5",
-        name: "CRM & Kullanıcılar",
-        icon: Users,
+        title: "CRM & Kullanıcılar",
+        icon: UsersRound,
+        isActive: true, // Mark active context
         children: [
-            { name: "Kullanıcılar", href: "#" },
-            { name: "Gruplar", href: "#" },
+            { title: "Müşteriler", href: "#" },
+            { title: "Temsilciler", href: "#" },
         ],
     },
     {
-        id: "item-6",
-        name: "Finans & Hakediş",
-        icon: Wallet,
+        title: "Finans",
+        icon: Banknote,
         children: [
-            { name: "Faturalar", href: "#" },
-            { name: "Ödemeler", href: "#" },
+            { title: "Faturalar", href: "#" },
+            { title: "Raporlar", href: "#" },
         ],
     },
 ]
 
-export function Sidebar() {
-    const [isCollapsed, setIsCollapsed] = React.useState(false)
+export function Sidebar({ forceMobileExpanded = false }: { forceMobileExpanded?: boolean }) {
+    const [isCollapsedState, setIsCollapsed] = React.useState(false)
+    const isCollapsed = forceMobileExpanded ? false : isCollapsedState;
 
     return (
-        <div
+        <aside
             className={cn(
-                "flex flex-col border-r border-neutral-200 bg-neutral-50/50 transition-all duration-300 ease-in-out h-full",
-                isCollapsed ? "w-16" : "w-64"
+                "group relative flex flex-col border-r border-neutral-200 bg-neutral-50 transition-all duration-300 ease-in-out h-full z-50",
+                isCollapsed ? "w-[72px]" : "w-64"
             )}
         >
-            {/* Header Area containing Logo and Collapse Button */}
-            <div className="flex h-16 shrink-0 items-center justify-between px-4">
-                <div className={cn("flex items-center gap-2 overflow-hidden", isCollapsed && "w-0 opacity-0")}>
-                    <div className="flex bg-neutral-900 border border-neutral-800 text-white rounded-md p-1 items-center justify-center h-8 w-8 shrink-0">
-                        <Building2 className="h-5 w-5" />
+            {/* Sidebar Header */}
+            <div className="flex h-16 items-center justify-between px-4 border-b border-neutral-200/60 transition-all">
+                <div className={cn("flex items-center gap-2.5 overflow-hidden whitespace-nowrap", isCollapsed && "opacity-0 invisible w-0")}>
+                    <div className="flex size-7 flex-shrink-0 items-center justify-center rounded-md bg-neutral-900 text-white">
+                        <Boxes className="size-[18px]" />
                     </div>
-                    <span className="font-semibold text-sm tracking-tight truncate">Academy OS</span>
+                    <span className="text-sm font-semibold tracking-tight text-neutral-900">
+                        Academy OS
+                    </span>
                 </div>
-
-                {/* The collapse action hover only */}
-                <button
-                    onClick={() => setIsCollapsed(!isCollapsed)}
-                    className={cn(
-                        "p-1.5 text-neutral-400 hover:bg-neutral-200 hover:text-neutral-900 rounded-md transition-all opacity-0 hover:opacity-100 group-hover:opacity-100 focus:opacity-100",
-                        !isCollapsed && "ml-auto"
-                    )}
-                    style={{ opacity: isCollapsed ? 1 : "" }} // when collapsed, always visible so you can expand
-                    aria-label="Toggle Navigation"
-                >
-                    <ChevronsLeft className={cn("h-4 w-4 transition-transform duration-300", isCollapsed && "rotate-180")} />
-                </button>
+                {!forceMobileExpanded && (
+                    <button
+                        onClick={() => setIsCollapsed(!isCollapsed)}
+                        className={cn(
+                            "flex p-1.5 text-neutral-500 hover:text-neutral-900 transition-colors rounded-md hover:bg-neutral-100",
+                            isCollapsed && "mx-auto w-full justify-center"
+                        )}
+                        aria-label="Toggle Sidebar"
+                    >
+                        {isCollapsed ? (
+                            <PanelLeftOpen className="size-5" />
+                        ) : (
+                            <PanelLeftClose className="size-5" />
+                        )}
+                    </button>
+                )}
             </div>
 
-            {/* Navigation Groups */}
-            <div className="flex-1 overflow-y-auto overflow-x-hidden p-3 space-y-6">
-
-                {/* Top-Level Links */}
-                <nav className="space-y-1">
-                    {navigation.map((item) => (
+            {/* Navigation Flow */}
+            <nav className="flex-1 overflow-y-auto overflow-x-hidden p-3 custom-scrollbar">
+                {/* Top Links */}
+                <div className="space-y-1 mb-2">
+                    {topNavItems.map((item, index) => (
                         <a
-                            key={item.name}
+                            key={index}
                             href={item.href}
                             className={cn(
-                                "group flex items-center gap-x-3 rounded-md px-2 py-2 text-sm font-medium transition-colors hover:bg-neutral-100",
-                                item.current ? "bg-neutral-100 text-neutral-900" : "text-neutral-600 hover:text-neutral-900"
+                                "group flex items-center rounded-md px-3 py-2 text-sm font-medium text-neutral-900 transition-all hover:bg-neutral-100",
+                                isCollapsed ? "justify-center px-0" : "gap-3"
                             )}
+                            title={isCollapsed ? item.title : undefined}
                         >
-                            <item.icon className="h-4 w-4 shrink-0" aria-hidden="true" />
-                            {!isCollapsed && <span className="truncate">{item.name}</span>}
+                            <item.icon className={cn("size-5 flex-shrink-0 text-neutral-500 transition-all group-hover:scale-105 group-hover:text-neutral-900", isCollapsed && "m-0")} />
+                            {!isCollapsed && <span className="flex-1 truncate">{item.title}</span>}
                         </a>
                     ))}
-                </nav>
+                </div>
 
-                {/* Accordion Links (Only Render fully if not collapsed, or we can use custom tooltip logic, for MVP minimal we just hide labels) */}
-                {!isCollapsed ? (
-                    <Accordion type="single" collapsible className="w-full space-y-1">
-                        {accordionNav.map((item) => (
-                            <AccordionItem value={item.id} key={item.id}>
-                                <AccordionTrigger className="px-2 py-2 hover:bg-neutral-100 text-neutral-600 hover:text-neutral-900">
-                                    <div className="flex items-center gap-x-3">
-                                        <item.icon className="h-4 w-4 shrink-0" aria-hidden="true" />
-                                        <span>{item.name}</span>
-                                    </div>
-                                </AccordionTrigger>
-                                <AccordionContent>
-                                    <div className="ml-5 mt-1 border-l border-neutral-200 pl-4 space-y-1">
-                                        {item.children.map((child) => (
-                                            <a
-                                                key={child.name}
-                                                href={child.href}
-                                                className="block rounded-md px-2 py-1.5 text-sm text-neutral-500 hover:bg-neutral-100 hover:text-neutral-900 transition-colors"
-                                            >
-                                                {child.name}
-                                            </a>
-                                        ))}
-                                    </div>
-                                </AccordionContent>
-                            </AccordionItem>
-                        ))}
-                    </Accordion>
-                ) : (
-                    <nav className="space-y-1 pt-1 opacity-50">
-                        {/* Collapsed version: Just icons showing */}
-                        {accordionNav.map((item) => (
-                            <div key={item.id} className="flex justify-center p-2 rounded-md hover:bg-neutral-100">
-                                <item.icon className="h-4 w-4 text-neutral-600" />
-                            </div>
-                        ))}
-                    </nav>
+                {!isCollapsed && (
+                    <div className="px-3 pt-4 pb-2">
+                        <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-neutral-400">
+                            Modüller
+                        </span>
+                    </div>
                 )}
 
-                {/* Bottom Menu Area */}
-                <nav className="space-y-1 pt-4 pb-2 border-t border-neutral-200 mt-6">
-                    <a
-                        href="#"
-                        className="group flex items-center gap-x-3 rounded-md px-2 py-2 text-sm font-medium text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 transition-colors"
-                    >
-                        <Settings className="h-4 w-4 shrink-0" aria-hidden="true" />
-                        {!isCollapsed && <span className="truncate">Sistem Ayarları</span>}
-                    </a>
-                </nav>
-            </div>
+                {/* Accordion Links */}
+                <div className="space-y-1">
+                    <Accordion type="single" collapsible defaultValue="CRM & Kullanıcılar" className="w-full">
+                        {accordionItems.map((item, index) => {
+                            const activeClasses = item.isActive ? "bg-neutral-100/80 border border-neutral-200/50 shadow-sm" : "hover:bg-neutral-100";
+                            return (
+                                <AccordionItem key={index} value={item.title} className="border-none">
+                                    <AccordionTrigger
+                                        className={cn(
+                                            "group flex w-full items-center rounded-md px-3 py-2 text-sm font-medium text-neutral-900 transition-all hover:no-underline [&[data-state=open]>svg:last-child]:rotate-180",
+                                            isCollapsed ? "justify-center px-0" : "gap-3",
+                                            activeClasses
+                                        )}
+                                        title={isCollapsed ? item.title : undefined}
+                                    >
+                                        <div className="flex items-center gap-3 w-full">
+                                            <item.icon className={cn("size-5 flex-shrink-0 text-neutral-500 transition-all group-hover:text-neutral-900", item.isActive && "text-neutral-900", isCollapsed && "m-0")} />
+                                            {!isCollapsed && <span className="flex-1 truncate text-left">{item.title}</span>}
+                                        </div>
+                                    </AccordionTrigger>
+                                    {!isCollapsed && (
+                                        <AccordionContent className="pb-1">
+                                            <ul className="flex flex-col ml-9 mt-1 space-y-1 border-l border-neutral-200/60 pl-2">
+                                                {item.children.map((child, childIndex) => (
+                                                    <li key={childIndex}>
+                                                        <a
+                                                            href={child.href}
+                                                            className="flex px-3 py-1.5 text-[13px] font-medium text-neutral-500 transition-all hover:text-neutral-900 hover:translate-x-0.5"
+                                                        >
+                                                            {child.title}
+                                                        </a>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </AccordionContent>
+                                    )}
+                                </AccordionItem>
+                            );
+                        })}
+                    </Accordion>
+                </div>
+            </nav>
 
-            {/* User Footer Profile */}
-            <div className="mt-auto border-t border-neutral-200 p-3">
+            {/* Bottom Section */}
+            <div className="border-t border-neutral-200/60 bg-neutral-50/50 p-3 pb-4">
+                <a
+                    href="#"
+                    className={cn(
+                        "group flex items-center rounded-md px-3 py-2 text-sm font-medium text-neutral-900 transition-all hover:bg-neutral-100 mb-1",
+                        isCollapsed ? "justify-center px-0" : "gap-3"
+                    )}
+                    title={isCollapsed ? "Analitik" : undefined}
+                >
+                    <BarChart3 className={cn("size-5 flex-shrink-0 text-neutral-500 transition-all group-hover:scale-105 group-hover:text-neutral-900", isCollapsed && "m-0")} />
+                    {!isCollapsed && <span className="flex-1 truncate">Analitik</span>}
+                </a>
+                <a
+                    href="#"
+                    className={cn(
+                        "group flex items-center rounded-md px-3 py-2 text-sm font-medium text-neutral-900 transition-all hover:bg-neutral-100 mb-4",
+                        isCollapsed ? "justify-center px-0" : "gap-3"
+                    )}
+                    title={isCollapsed ? "Sistem Ayarları" : undefined}
+                >
+                    <Settings className={cn("size-5 flex-shrink-0 text-neutral-500 transition-all duration-500 group-hover:rotate-45 group-hover:text-neutral-900", isCollapsed && "m-0")} />
+                    {!isCollapsed && <span className="flex-1 truncate">Sistem Ayarları</span>}
+                </a>
+
+                {/* Profile Footer */}
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <button className={cn(
-                            "flex w-full items-center gap-2 rounded-md p-1.5 text-left text-sm transition-colors hover:bg-neutral-100 outline-none",
-                            isCollapsed && "justify-center"
-                        )}>
-                            <Avatar className="h-8 w-8 rounded-md bg-white border border-neutral-200">
+                        <button
+                            className={cn(
+                                "flex w-full items-center gap-3 rounded-lg border border-neutral-200 bg-white p-2 text-left shadow-sm transition-all hover:border-neutral-300 active:scale-[0.98]",
+                                isCollapsed && "justify-center p-2 border-transparent bg-transparent shadow-none hover:bg-neutral-100"
+                            )}
+                        >
+                            <Avatar className="size-8 rounded-full border border-neutral-100 flex-shrink-0">
                                 <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-                                <AvatarFallback className="rounded-md">IS</AvatarFallback>
+                                <AvatarFallback className="text-xs font-semibold bg-neutral-900 text-white">İS</AvatarFallback>
                             </Avatar>
-
                             {!isCollapsed && (
                                 <>
-                                    <div className="grid flex-1 overflow-hidden leading-tight">
-                                        <span className="truncate font-medium text-neutral-900">İsim Soyisim</span>
-                                        <span className="truncate text-xs text-neutral-500">Admin</span>
+                                    <div className="flex flex-1 flex-col overflow-hidden min-w-0">
+                                        <p className="truncate text-[13px] font-medium leading-none text-neutral-900">
+                                            İsim Soyisim
+                                        </p>
+                                        <p className="truncate text-[11px] font-medium tracking-wide text-neutral-500 mt-0.5">
+                                            Admin
+                                        </p>
                                     </div>
-                                    <ChevronsUpDown className="ml-auto h-4 w-4 text-neutral-500" />
+                                    <ChevronsUpDown className="size-4 text-neutral-500" />
                                 </>
                             )}
                         </button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-56" align="end" side="top" sideOffset={12}>
+                    <DropdownMenuContent className="w-56" align="end" side="right" sideOffset={8}>
                         <DropdownMenuLabel className="font-normal">
                             <div className="flex flex-col space-y-1">
                                 <p className="text-sm font-medium leading-none">İsim Soyisim</p>
-                                <p className="text-xs leading-none text-neutral-500">admin@academysaas.com</p>
+                                <p className="text-xs leading-none text-neutral-500">
+                                    admin@academyos.com
+                                </p>
                             </div>
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>
-                            <User className="mr-2 h-4 w-4" />
-                            <span>Profilim</span>
+                        <DropdownMenuItem className="cursor-pointer gap-2">
+                            <UserRound className="h-4 w-4 text-neutral-500" />
+                            <span>Hesabım / Profilim</span>
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
-                            <Moon className="mr-2 h-4 w-4" />
+                        <DropdownMenuItem className="cursor-pointer gap-2">
+                            <Moon className="h-4 w-4 text-neutral-500" />
                             <span>Koyu Tema</span>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem className="text-red-600 focus:bg-red-50 focus:text-red-600">
-                            <LogOut className="mr-2 h-4 w-4" />
+                        <DropdownMenuItem className="cursor-pointer gap-2 text-red-600 focus:bg-red-50 focus:text-red-700">
+                            <LogOut className="h-4 w-4" />
                             <span>Çıkış Yap</span>
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-        </div>
+        </aside>
     )
 }

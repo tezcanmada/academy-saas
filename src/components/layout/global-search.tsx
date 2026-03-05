@@ -28,15 +28,26 @@ export function GlobalSearch() {
 
     return (
         <>
+            {/* Desktop Search Button */}
             <button
                 onClick={() => setOpen(true)}
-                className="group flex items-center gap-2 rounded-md border border-neutral-200 bg-neutral-50/50 px-3 py-1.5 text-sm text-neutral-500 transition-colors hover:bg-neutral-100 w-full md:w-64 max-w-sm"
+                className="hidden sm:flex items-center justify-between w-64 px-3 py-1.5 bg-neutral-50 border border-neutral-200 rounded-lg text-neutral-400 text-sm hover:border-neutral-300 transition-all"
             >
-                <Search className="h-4 w-4 shrink-0 text-neutral-400 group-hover:text-neutral-500" />
-                <span className="flex-1 text-left">Arama yap...</span>
-                <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-neutral-100 px-1.5 font-mono text-[10px] font-medium text-neutral-500 opacity-100">
+                <div className="flex items-center gap-2 text-neutral-500 hover:text-neutral-900 transition-colors">
+                    <Search className="h-[18px] w-[18px]" />
+                    <span className="font-medium">Arama yap...</span>
+                </div>
+                <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border border-neutral-200 bg-white px-1.5 font-mono text-[10px] font-medium text-neutral-400">
                     <span className="text-xs">⌘</span>K
                 </kbd>
+            </button>
+
+            {/* Mobile Search Button */}
+            <button
+                onClick={() => setOpen(true)}
+                className="sm:hidden flex items-center justify-center h-9 w-9 text-neutral-500 hover:text-neutral-900 bg-neutral-50 rounded-lg border border-neutral-200 transition-colors"
+            >
+                <Search className="h-[18px] w-[18px]" />
             </button>
             <CommandDialog open={open} onOpenChange={setOpen}>
                 <CommandInput placeholder="Akademi dünyasında ara..." />
